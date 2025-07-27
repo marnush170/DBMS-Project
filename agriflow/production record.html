@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Production Record | AgriFlow</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background-color: #f4f6f9;
+  }
+  
+  header {
+    background-color: #2a3f54;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .form-section,
+  .search-section,
+  .table-section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  form input,
+  form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  form button {
+    background-color: #2a3f54;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+  
+  form button:hover {
+    background-color: #1c2e3e;
+  }
+  
+  .search-section input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  table th,
+  table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #f0f0f0;
+  }
+   /* NAVBAR STYLES */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a3f54;
+  padding: 15px 30px;
+  color: white;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color:black;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+  background-color: #1a2734;
+}
+
+</style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>AgriFlow - Production Record</h1>
+  </header>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#">Farmer</a></li>
+      <li><a href="policy maker.html">Policy Maker</a></li>
+      <li><a href="dashboard1.html">Dashboard</a></li>
+      <li><a href="product.html">Product</a></li>
+      <li><a href="#">Supplier</a></li>
+      <li><a href="#">Transformation Manager</a></li>
+      <li><a href="#">Wholesaler</a></li>
+      <li><a href="#">Location</a></li>
+      <li><a href="#">Extension Manager</a></li>
+      <li><a href="#">Consumer</a></li>
+      <li><a href="#">Retailer</a></li>
+      <li><a href="#">Crop Yield</a></li>
+      <li><a href="#">Storage Facility</a></li>
+    </ul>
+  </nav>
+  <section class="form-section">
+    <h2>Add Production Record</h2>
+    <form id="recordForm">
+      <input type="text" id="productName" placeholder="Product Name" required />
+      <input type="number" id="quantity" placeholder="Quantity (kg)" required />
+      <input type="date" id="productionDate" required />
+      <input type="text" id="location" placeholder="Location" required />
+      <button type="submit">Add Record</button>
+    </form>
+  </section>
+
+  <section class="search-section">
+    <input type="text" id="searchInput" placeholder="Search by product or location..." />
+  </section>
+
+  <section class="table-section">
+    <h2>Production Records</h2>
+    <table id="recordTable">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Quantity (kg)</th>
+          <th>Date</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <script>
+const recordForm = document.getElementById('recordForm');
+const recordTableBody = document.querySelector('#recordTable tbody');
+const searchInput = document.getElementById('searchInput');
+
+// Sample data
+let records = [
+  {
+    productName: "seeds",
+    quantity: 150,
+    productionDate: "2025-07-01",
+    location: "Dhaka"
+  },
+  {
+    productName: "Fertilizer",
+    quantity: 400,
+    productionDate: "2025-07-10",
+    location: "Chattogram"
+  },
+  {
+    productName: "Tractor oil",
+    quantity: 300,
+    productionDate: "2025-06-15",
+    location: "Khulna"
+  },
+  {
+    productName: "Tools",
+    quantity: 200,
+    productionDate: "2025-06-28",
+    location: "Rajshahi"
+  }
+];
+
+// Add new record from form
+recordForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const productName = document.getElementById('productName').value.trim();
+  const quantity = document.getElementById('quantity').value.trim();
+  const productionDate = document.getElementById('productionDate').value;
+  const location = document.getElementById('location').value.trim();
+
+  const newRecord = { productName, quantity, productionDate, location };
+  records.push(newRecord);
+  displayRecords(records);
+
+  recordForm.reset();
+});
+
+// Search/filter functionality
+searchInput.addEventListener('input', function () {
+  const keyword = searchInput.value.toLowerCase();
+  const filtered = records.filter(r =>
+    r.productName.toLowerCase().includes(keyword) ||
+    r.location.toLowerCase().includes(keyword)
+  );
+  displayRecords(filtered);
+});
+
+// Function to render table
+function displayRecords(data) {
+  recordTableBody.innerHTML = '';
+  data.forEach(record => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${record.productName}</td>
+      <td>${record.quantity}</td>
+      <td>${record.productionDate}</td>
+      <td>${record.location}</td>
+    `;
+    recordTableBody.appendChild(row);
+  });
+}
+
+// Initial display
+displayRecords(records);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Policy Maker | AgriFlow</title>
+  <style>
+    /* General layout */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a3f54;
+  padding: 15px 30px;
+  color: white;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #1a2734;
+}
+
+/* Header */
+header {
+  background-color: #e0e0e0;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Sections */
+section {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input,
+form textarea,
+form button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+form button {
+  background-color: #2a3f54;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #1c2e3e;
+}
+
+/* Search box */
+.search-section input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Policy list */
+#policyList {
+  list-style: none;
+  padding: 0;
+}
+
+#policyList li {
+  background-color: white;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#policyList h3 {
+  margin: 0 0 5px;
+  color: #007bff;
+}
+
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">AgriFlow</div>
+    <ul class="nav-links">
+        <li><a href="#">Farmer</a></li>
+        <li><a href="production record.html">Production Record</a></li>
+        <li><a href="dashboard1.html">Dashboard</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="#">Supplier</a></li>
+        <li><a href="#">Transformation Manager</a></li>
+        <li><a href="#">Wholesaler</a></li>
+        <li><a href="#">Location</a></li>
+        <li><a href="#">Extension Manager</a></li>
+        <li><a href="#">Consumer</a></li>
+        <li><a href="#">Retailer</a></li>
+        <li><a href="#">Crop Yield</a></li>
+        <li><a href="#">Storage Facility</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Policy Management</h1>
+  </header>
+
+  <section class="form-section">
+    <h2>Add New Policy</h2>
+    <form id="policyForm">
+      <input type="text" id="policyTitle" placeholder="Policy Title" required />
+      <input type="text" id="responsiblePerson" placeholder="Responsible Person" required />
+      <input type="date" id="policyDate" required />
+      <textarea id="policyDescription" placeholder="Policy Description" required></textarea>
+      <button type="submit">Add Policy</button>
+    </form>
+  </section>
+
+  <section class="search-section">
+    <input type="text" id="policySearch" placeholder="Search policies..." />
+  </section>
+
+  <section class="policy-list-section">
+    <h2>Existing Policies</h2>
+    <ul id="policyList"></ul>
+  </section>
+
+  <script>
+    const policyForm = document.getElementById('policyForm');
+const policyList = document.getElementById('policyList');
+const policySearch = document.getElementById('policySearch');
+
+// Sample policy data
+let policies = [
+  {
+    title: "Water Usage Regulation",
+    responsiblePerson: "Dr. Aminul Islam",
+    date: "2025-06-20",
+    description: "Limits water use during dry seasons to ensure sustainability."
+  },
+  {
+    title: "Organic Farming Incentives",
+    responsiblePerson: "Ms. Tania Rahman",
+    date: "2025-07-15",
+    description: "Provides financial support for farmers adopting organic methods."
+  }
+];
+
+// Render policies
+function displayPolicies(data) {
+  policyList.innerHTML = '';
+  data.forEach(policy => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <h3>${policy.title}</h3>
+      <p><strong>By:</strong> ${policy.responsiblePerson}</p>
+      <p><strong>Date:</strong> ${policy.date}</p>
+      <p>${policy.description}</p>
+    `;
+    policyList.appendChild(li);
+  });
+}
+
+// Add new policy
+policyForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const title = document.getElementById('policyTitle').value.trim();
+  const responsiblePerson = document.getElementById('responsiblePerson').value.trim();
+  const date = document.getElementById('policyDate').value;
+  const description = document.getElementById('policyDescription').value.trim();
+
+  const newPolicy = { title, responsiblePerson, date, description };
+  policies.push(newPolicy);
+
+  displayPolicies(policies);
+  policyForm.reset();
+});
+
+// Search/filter
+policySearch.addEventListener('input', () => {
+  const keyword = policySearch.value.toLowerCase();
+  const filtered = policies.filter(p =>
+    p.title.toLowerCase().includes(keyword) ||
+    p.description.toLowerCase().includes(keyword) ||
+    p.responsiblePerson.toLowerCase().includes(keyword)
+  );
+  displayPolicies(filtered);
+});
+
+// Initial render
+displayPolicies(policies);
+
+  </script>>
+</body>
+</html>

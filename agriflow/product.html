@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products</title>
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+  }
+  
+  .header {
+    padding: 20px;
+    background-color: #2a3f54;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .header h1 {
+    font-size: 24px;
+  }
+  
+  .header input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 250px;
+  }
+  
+  .product-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2.5rem, 1fr));
+    gap: 20px;
+    padding: 30px;
+  }
+  
+  .product-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .product-card img {
+    width: 50%;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .product-details {
+    padding: 15px;
+  }
+  
+  .product-details h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .product-details p {
+    font-size: 16px;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .product-details button {
+    padding: 8px 12px;
+    background-color: #2a3f54;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .product-details button:hover {
+    background-color: #1c2e3e;
+  }
+ /* NAVBAR STYLES */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a3f54;
+  padding: 15px 30px;
+  color: white;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color:black;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+  background-color: #1a2734;
+}
+
+</style>
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+    <aside class="sidebar">
+  
+        <h2 class="logo"></h2>
+      
+    <nav>
+        <ul class="nav-links">
+          <li><a href="#">Farmer</a></li>
+          <li><a href="policy maker.html">Policy Maker</a></li>
+          <li><a href="dashboard1.html">Dashboard</a></li>
+          <li><a href="production record.html">Production Record</a></li>
+          <li><a href="#">Supplier</a></li>
+          <li><a href="#">Transformation Manager</a></li>
+          <li><a href="#">Wholesaler</a></li>
+          <li><a href="#">Location</a></li>
+          <li><a href="#">Extension Manager</a></li>
+          <li><a href="#">Consumer</a></li>
+          <li><a href="#">Retailer</a></li>
+          <li><a href="#">Crop Yield</a></li>
+          <li><a href="#">Storage Facility</a></li>
+        </ul>
+      </nav>
+    </aside>
+  <header class="header">
+    <h1>AgriFlow Products</h1>
+    <input type="text" id="searchBar" placeholder="Search products..." />
+  </header>
+
+  <main class="product-container" id="productList">
+    <!-- Products will be injected by script.js -->
+  </main>
+  
+  <script>
+    const products = [
+
+  { name: "Organic Fertilizer", price: "৳300", image: "fertilizer.jpg" },
+  { name: "Tractor Oil", price: "৳450", image: "tractor oil.jpg" },
+  { name: "Irrigation Kit", price: "৳1200", image: "kit.jpg" },
+  { name: "Rice Seedlings", price: "৳250", image: "seedling.jpg" },
+  { name: "Harvest Tools", price: "৳500", image: "tool.jpg" }
+];
+
+const productList = document.getElementById('productList');
+const searchBar = document.getElementById('searchBar');
+
+function renderProducts(items) {
+  productList.innerHTML = '';
+  items.forEach(product => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${product.image}" alt="${product.name}" />
+      <div class="product-details">
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+        <button onclick="alert('More details about ${product.name}')">View Details</button>
+      </div>
+    `;
+    productList.appendChild(card);
+  });
+}
+
+searchBar.addEventListener('input', () => {
+  const keyword = searchBar.value.toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(keyword));
+  renderProducts(filtered);
+});
+
+// Initial render
+renderProducts(products);
+
+  </script>
+</body>
+</html>
